@@ -18,6 +18,7 @@ class Config:
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'  # 主题前缀
     FLASKY_MAIL_SENDER = '1130831892@qq.com'  # 发送方
     FLASKY_ADMIN = '1130831892@qq.com'  # 管理员邮箱
+    SSL_REDIRECT = False
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True  # 每次请求结束后自动提交数据库中的变动
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # 如果设置成 True (默认情况)，Flask-SQLAlchemy 将会追踪对象的修改并且发送信号。这需要额外的内存，如果不必要的可以禁用它。
     SQLALCHEMY_RECORD_QUERIES = True  # 启用记录查询统计数字的功能
@@ -73,10 +74,30 @@ class ProductionConfig(Config):
         app.logger.addHandler(mail_handler)
 
 
+# Heroku平台
+class HerokuConfig(ProductionConfig):
+    SSL_REDIRECT = True if os.environ.get('DYNO') else False
+
+    @classmethod
+    def init_app(cls, app):
+        ProductionConfig.init_app(app)
+
+        # handle reverse proxy server headers
+        from werkzeug.contrib.fixers import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app)
+
+        # log to stderr
+        import logging
+        from logging import StreamHandler
+        file_handler = StreamHandler()
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
+
+
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
-
+    'heroku': HerokuConfig,
     'default': DevelopmentConfig
 }

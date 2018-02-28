@@ -31,6 +31,10 @@ def create_app(config_name):  # 程序工厂函数，用来延迟创建程序实
     login_manager.init_app(app)  # 初始化登录管理
     pagedown.init_app(app)  # 初始化富文本
 
+    if app.config['SSL_REDIRECT']:
+        from flask_sslify import SSLify
+        sslify = SSLify(app)
+
     from .main import main as main_blueprint  # 注册main蓝本
     app.register_blueprint(main_blueprint)
 
