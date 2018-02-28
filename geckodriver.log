@@ -1,0 +1,12 @@
+1519809239282	geckodriver	INFO	geckodriver 0.19.1
+1519809239310	geckodriver	INFO	Listening on 127.0.0.1:22820
+1519809242409	mozrunner::runner	INFO	Running command: "F:\\火狐\\firefox.exe" "-marionette" "-profile" "C:\\Users\\my\\AppData\\Local\\Temp\\rust_mozprofile.YDSinukbSfWR"
+1519809244926	Marionette	INFO	Enabled via --marionette
+1519809250015	Marionette	INFO	Listening on port 22829
+1519809250561	Marionette	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+
+GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+rc/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
